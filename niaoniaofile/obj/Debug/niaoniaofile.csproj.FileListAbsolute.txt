@@ -1,0 +1,16 @@
+E:\CProjects\niaoniaofile\niaoniaofile\bin\Debug\niaoniaofile.exe.config
+E:\CProjects\niaoniaofile\niaoniaofile\obj\Debug\niaoniaofile.Form1.resources
+E:\CProjects\niaoniaofile\niaoniaofile\obj\Debug\niaoniaofile.Properties.Resources.resources
+E:\CProjects\niaoniaofile\niaoniaofile\obj\Debug\niaoniaofile.csproj.GenerateResource.Cache
+E:\CProjects\niaoniaofile\niaoniaofile\bin\Debug\niaoniaofile.exe
+E:\CProjects\niaoniaofile\niaoniaofile\bin\Debug\niaoniaofile.pdb
+E:\CProjects\niaoniaofile\niaoniaofile\obj\Debug\niaoniaofile.exe
+E:\CProjects\niaoniaofile\niaoniaofile\obj\Debug\niaoniaofile.pdb
+E:\CProjects\niaoniaofile\niaoniaofile\bin\Debug\ChnCharInfo.dll
+E:\CProjects\niaoniaofile\niaoniaofile\bin\Debug\ChnCharInfo.xml
+E:\CProjects\niaoniaofile\niaoniaofile\bin\Debug\zh-CN\ChnCharInfo.resources.dll
+E:\CProjects\niaoniaofile\niaoniaofile\bin\Debug\JiebaNet.Segmenter.dll
+E:\CProjects\niaoniaofile\niaoniaofile\bin\Debug\Newtonsoft.Json.dll
+E:\CProjects\niaoniaofile\niaoniaofile\bin\Debug\JiebaNet.Segmenter.pdb
+E:\CProjects\niaoniaofile\niaoniaofile\bin\Debug\Newtonsoft.Json.xml
+E:\CProjects\niaoniaofile\niaoniaofile\obj\Debug\niaoniaofile.csprojResolveAssemblyReference.cache
