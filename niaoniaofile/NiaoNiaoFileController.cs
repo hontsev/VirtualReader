@@ -154,7 +154,7 @@ namespace niaoniaofile
             int nowindex = 0;
             foreach (var sentence in sentences)
             {
-                beginat += 5;
+                beginat += 6;
                 List<List<string>> pinyin = pyconv.getPinYinList(sentence);
                 foreach (var p in pinyin)
                 {

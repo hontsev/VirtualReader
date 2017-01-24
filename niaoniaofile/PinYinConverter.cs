@@ -543,6 +543,43 @@ namespace niaoniaofile
         }
 
         /// <summary>
+        /// 去除多余的停顿点
+        /// </summary>
+        /// <param name="words"></param>
+        /// <returns></returns>
+        private List<string> removeUselessBlanks(List<string> words)
+        {
+            List<string> res = new List<string>();
+
+            string thisword = "";
+            for (int i = 0; i < words.Count; i++)
+            {
+                if (thisword.Length >= 3)
+                {
+                    res.Add(thisword);
+                    thisword = "";
+                }
+                
+                if (words[i].Length >= 4)
+                {
+                    res.Add(thisword);
+                    thisword = "";
+                    res.Add(words[i]);
+                }
+                else
+                {
+                    thisword += words[i];
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(thisword))
+            {
+                res.Add(thisword);
+            }
+
+            return res;
+        }
+
+        /// <summary>
         /// 获取汉语句子的拼音序列
         /// </summary>
         /// <param name="sentence"></param>
@@ -552,48 +589,48 @@ namespace niaoniaofile
             
             JiebaNet.Segmenter.JiebaSegmenter seg = new JiebaSegmenter();
             var words1 = seg.Cut(sentence);
-            List<string> words = new List<string>();
-            bool isjoin = false;
-            foreach (var w in words1)
-            {
-                if (words.Count == 0)
-                {
-                    //第一个
-                    if (w.Length == 1)
-                    {
-                        words.Add(w);
-                        isjoin = true;
-                    }
-                    else
-                    {
-                        words.Add(w);
-                        isjoin = false;
-                    }
-                }
-                else if (w.Length >= 2)
-                {
-                    words.Add(w);
-                    isjoin = false;
-                }
-                else 
-                {
-                    if (w.Length == 1)
-                    {
-                        if (isjoin) 
-                            words[words.Count - 1] += w;
-                        else if (words[words.Count - 1].Length <= 1)
-                        {
-                            isjoin = true;
-                            words[words.Count - 1] += w;
-                        }
-                        else
-                        {
-                            words.Add(w);
-                            isjoin = true;
-                        }
-                    }
-                }
-            }
+            List<string> words = removeUselessBlanks(words1.ToList());
+            //bool isjoin = false;
+            //foreach (var w in words1)
+            //{
+            //    if (words.Count == 0)
+            //    {
+            //        //第一个
+            //        if (w.Length == 1)
+            //        {
+            //            words.Add(w);
+            //            isjoin = true;
+            //        }
+            //        else
+            //        {
+            //            words.Add(w);
+            //            isjoin = false;
+            //        }
+            //    }
+            //    else if (w.Length >= 2)
+            //    {
+            //        words.Add(w);
+            //        isjoin = false;
+            //    }
+            //    else 
+            //    {
+            //        if (w.Length == 1)
+            //        {
+            //            if (isjoin) 
+            //                words[words.Count - 1] += w;
+            //            else if (words[words.Count - 1].Length <= 1)
+            //            {
+            //                isjoin = true;
+            //                words[words.Count - 1] += w;
+            //            }
+            //            else
+            //            {
+            //                words.Add(w);
+            //                isjoin = true;
+            //            }
+            //        }
+            //    }
+            //}
 
             //转为拼音
             List<List<string>> pinyin = new List<List<string>>();
@@ -609,7 +646,6 @@ namespace niaoniaofile
                 {
 
                 }
-
             }
             reformSentencePinYin(ref pinyin, sentence);
             return pinyin;

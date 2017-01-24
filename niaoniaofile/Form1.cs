@@ -150,73 +150,74 @@ namespace niaoniaofile
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            using (FileStream fs = new FileStream(@"Dictionary\Dictionary.txt", FileMode.OpenOrCreate))
-            {
-                using (StreamReader sr = new StreamReader(fs))
-                {
-                    while (!sr.EndOfStream)
-                    {
-                        string[] tmp = sr.ReadLine().Split('|');
-                        if (tmp.Length == 2)
-                        {
-                            try
-                            {
-                                int index = tmp[0].IndexOf('行');
-                                if (index >= 0)
-                                {
-                                    string[] list = tmp[1].Split(' ');
-                                    if (list[index] == "xing4") { list[index] = "xing2"; }
-                                    string tmp1 = "";
-                                    foreach (var i in list) tmp1 += i + " ";
-                                    if (tmp1.EndsWith(" ")) tmp1 = tmp1.Substring(0, tmp1.Length - 1);
-                                    dictionary[tmp[0]] = tmp1;
-                                }
-                                else
-                                {
-                                    dictionary[tmp[0]] = tmp[1];
-                                }
-
-                            }
-                            catch
-                            {
-                            }
-                        }
-                    }
-                }
-            }
-
-            using (FileStream fs = new FileStream(@"Dictionary\Dictionary.txt", FileMode.Create))
-            {
-                using (StreamWriter sr = new StreamWriter(fs))
-                {
-                    foreach (var item in dictionary)
-                    {
-                        sr.WriteLine("{0}|{1}", item.Key, item.Value);
-                    }
-                }
-            }
-            //string str = textBox3.Text;
-            //if (!string.IsNullOrWhiteSpace(str))
+            //Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            //using (FileStream fs = new FileStream(@"Dictionary\Dictionary.txt", FileMode.OpenOrCreate))
             //{
-            //    char ch = str[0];
-            //    try
+            //    using (StreamReader sr = new StreamReader(fs))
             //    {
-            //        print(((int)ch).ToString());
-
-            //        var res = PinYinConverter.GetPinYinWithTone(ch);
-            //        string resstr = ch.ToString() + "\r\n";
-            //        foreach (var r in res)
+            //        while (!sr.EndOfStream)
             //        {
-            //            resstr += string.Format("{0},", r);
-            //        }
-            //        print(resstr);
-            //    }
-            //    catch
-            //    {
+            //            string[] tmp = sr.ReadLine().Split('|');
+            //            if (tmp.Length == 2)
+            //            {
+            //                try
+            //                {
+            //                    int index = tmp[0].IndexOf('行');
+            //                    if (index >= 0)
+            //                    {
+            //                        string[] list = tmp[1].Split(' ');
+            //                        if (list[index] == "xing4") { list[index] = "xing2"; }
+            //                        string tmp1 = "";
+            //                        foreach (var i in list) tmp1 += i + " ";
+            //                        if (tmp1.EndsWith(" ")) tmp1 = tmp1.Substring(0, tmp1.Length - 1);
+            //                        dictionary[tmp[0]] = tmp1;
+            //                    }
+            //                    else
+            //                    {
+            //                        dictionary[tmp[0]] = tmp[1];
+            //                    }
 
+            //                }
+            //                catch
+            //                {
+            //                }
+            //            }
+            //        }
             //    }
             //}
+
+            //using (FileStream fs = new FileStream(@"Dictionary\Dictionary.txt", FileMode.Create))
+            //{
+            //    using (StreamWriter sr = new StreamWriter(fs))
+            //    {
+            //        foreach (var item in dictionary)
+            //        {
+            //            sr.WriteLine("{0}|{1}", item.Key, item.Value);
+            //        }
+            //    }
+            //}
+
+            string str = textBox3.Text;
+            if (!string.IsNullOrWhiteSpace(str))
+            {
+                char ch = str[0];
+                try
+                {
+                    print(((int)ch).ToString());
+
+                    var res = PinYinConverter.GetPinYinWithTone(ch);
+                    string resstr = ch.ToString() + "\r\n";
+                    foreach (var r in res)
+                    {
+                        resstr += string.Format("{0},", r);
+                    }
+                    print(resstr);
+                }
+                catch
+                {
+
+                }
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -360,12 +361,17 @@ namespace niaoniaofile
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Environment.Exit(0);
+            
         }
 
         private void Form1_Shown(object sender, EventArgs e)
         {
             textBox1.Focus();
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }
