@@ -16,11 +16,13 @@ namespace niaoniaofile
     public partial class Form1 : Form
     {
         private NiaoNiaoFileController nnc;
+        private UTAUFileController utauc;
 
         public Form1()
         {
             InitializeComponent();
             nnc = new NiaoNiaoFileController();
+            utauc = new UTAUFileController();
         }
 
         public void print(string str)
@@ -33,6 +35,43 @@ namespace niaoniaofile
             else
             {
                 textBox2.AppendText(str + "\r\n");
+            }
+        }
+
+        public void printDebug(string str)
+        {
+            if (textBox4.InvokeRequired)
+            {
+                MyDelegates.sendStringDelegate mevent = new MyDelegates.sendStringDelegate(printDebug);
+                Invoke(mevent, (object)str);
+            }
+            else
+            {
+                textBox4.Text = str;
+            }
+        }
+
+        public void setGUIStatus(bool enabled)
+        {
+            if (button2.InvokeRequired)
+            {
+                MyDelegates.sendBoolDelegate mevent = new MyDelegates.sendBoolDelegate(setGUIStatus);
+                Invoke(mevent, (object)enabled);
+            }
+            else
+            {
+                if (enabled)
+                {
+                    button2.Enabled = true;
+                    button3.Enabled = true;
+                    button5.Enabled = true;
+                }
+                else
+                {
+                    button2.Enabled = false;
+                    button3.Enabled = false;
+                    button5.Enabled = false;
+                }
             }
         }
 
@@ -78,7 +117,7 @@ namespace niaoniaofile
 
         private void getNNFile(object str)
         {
-
+            setGUIStatus(false);
             print("开始生成袅袅文件，请稍候");
             string path = Application.StartupPath+@"\output\";
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
@@ -92,9 +131,27 @@ namespace niaoniaofile
                 }
             }
             print(string.Format("生成完毕。输出路径为\r\n{0}",file));
+            setGUIStatus(true);
         }
 
-
+        private void getUTAUFile(object str)
+        {
+            setGUIStatus(false);
+            print("开始生成UST文件，请稍候");
+            string path = Application.StartupPath + @"\output\";
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+            string filename = @"output.ust";
+            string file = path + filename;
+            using (FileStream fs = new FileStream(file, FileMode.Create))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.Write(utauc.getUSTFile(str as string, this.print));
+                }
+            }
+            print(string.Format("生成完毕。输出路径为\r\n{0}", file));
+            setGUIStatus(true);
+        }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
@@ -108,12 +165,6 @@ namespace niaoniaofile
             nnc.soundSpeed = int.Parse(numericUpDown2.Value.ToString());
             nnc.soundheight = int.Parse(numericUpDown1.Value.ToString());
             new Thread(getNNFile).Start(textBox1.Text);
-        }
-
-        private void workMakeNiaoNiaoFile()
-        {
-            print("begin");
-
         }
 
         //private void button1_Click(object sender, EventArgs e)
@@ -203,7 +254,7 @@ namespace niaoniaofile
                 char ch = str[0];
                 try
                 {
-                    print(((int)ch).ToString());
+                    printDebug(((int)ch).ToString());
 
                     var res = PinYinConverter.GetPinYinWithTone(ch);
                     string resstr = ch.ToString() + "\r\n";
@@ -211,7 +262,7 @@ namespace niaoniaofile
                     {
                         resstr += string.Format("{0},", r);
                     }
-                    print(resstr);
+                    printDebug(resstr);
                 }
                 catch
                 {
@@ -222,6 +273,7 @@ namespace niaoniaofile
 
         private void button3_Click(object sender, EventArgs e)
         {
+            
             string str = textBox1.Text.Replace("\r", "").Replace("\n", "");
             string filename = @"Dictionary\SimpleWordAdd.txt";
 
@@ -372,6 +424,49 @@ namespace niaoniaofile
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            textBox2.Text = "";
+            utauc.soundSpeed = int.Parse(numericUpDown3.Value.ToString());
+            utauc.soundheight = int.Parse(numericUpDown4.Value.ToString());
+            new Thread(getUTAUFile).Start(textBox1.Text);
+        }
+
+        private void getPinYinString(object str)
+        {
+            print("开始将文字转化为拼音。请稍等。");
+            setGUIStatus(false);
+            string outputstr = "";
+            string tstr = (string)str;
+            PinYinConverter pyc = new PinYinConverter();
+            string[] sentences = pyc.cutSentencesAll(tstr);
+            foreach (var s in sentences)
+            {
+                var res = pyc.getPinYinList(s);
+                
+                foreach (var sen in res)
+                {
+                    foreach (var word in sen)
+                    {
+                        outputstr += word + " ";
+                    }
+                    //outputstr += "|";
+                }
+                outputstr += "，";
+            }
+
+            printDebug(outputstr);
+            setGUIStatus(true);
+            print("拼音转化完毕。");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            
+            
+            new Thread(getPinYinString).Start((object)textBox1.Text.ToString());
         }
     }
 }

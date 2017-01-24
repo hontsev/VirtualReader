@@ -9,5 +9,7 @@ namespace niaoniaofile
     public class MyDelegates
     {
         public delegate void sendStringDelegate(string str);
+        public delegate void sendVoidDelegate();
+        public delegate void sendBoolDelegate(bool b);
     }
 }

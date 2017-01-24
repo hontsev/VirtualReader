@@ -590,6 +590,8 @@ namespace niaoniaofile
             JiebaNet.Segmenter.JiebaSegmenter seg = new JiebaSegmenter();
             var words1 = seg.Cut(sentence);
             List<string> words = removeUselessBlanks(words1.ToList());
+            
+            
             //bool isjoin = false;
             //foreach (var w in words1)
             //{

@@ -20,6 +20,7 @@ namespace niaoniaofile
         {
             pyconv = new PinYinConverter();
             soundheight = 19;
+            soundSpeed = 130;
         }
 
         public string getHeader(int soundnum,int maxlen)
@@ -33,7 +34,7 @@ namespace niaoniaofile
 
         
 
-        private static string getNiaoNiaoSoundTurnInfo(int toneIndex,int nextIndex = 0,int beforeIndex=0)
+        private static string getNiaoNiaoSoundTurnInfo(int toneIndex,int beforeIndex=0,int nextIndex = 0)
         {
             string res = "100,28,28,27,27,26,26,26,26,26,25,24,24,24,24,24,24,24,23,23,22,22,22,22,22,22,20,20,20,20,20,19,19,19,19,18,18,18,18,18,18,18,18,18,18,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,18,18,18,18,18,19,19,19,19,19,19,19,20,20,20 2";
             switch (toneIndex)
@@ -104,7 +105,7 @@ namespace niaoniaofile
             return res;
         }
 
-        public string getNiaoNiaoSoundStr(string pinyin, int beginat,int length,string nextpinyin,string beforepinyin)
+        public string getNiaoNiaoSoundStr(string pinyin, int beginat, int length, string beforepinyin, string nextpinyin)
         {
             int toneIndex = 1;
             int nextIndex = 0;
@@ -122,7 +123,7 @@ namespace niaoniaofile
                 soundscale = "100,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,49,49,49,49,49,49,49,49,48,48,48,47,47,47,47,46,45,44,44,43,43,43,42,41,40,39,39,38,36,35,34,32,31,30,30,27,27,27,25,24,24,23,22,21";
             }
 
-            string soundturn = getNiaoNiaoSoundTurnInfo(toneIndex,nextIndex,beforeIndex);
+            string soundturn = getNiaoNiaoSoundTurnInfo(toneIndex, beforeIndex, nextIndex);
 
             string res = string.Format(" {0} {0} {1} {2} {3} 50 50 0 0 0 0 {4} {5}\n", realpinyin, beginat, length, soundheight, soundscale, soundturn);
 
@@ -183,17 +184,18 @@ namespace niaoniaofile
                         {
                             length = 4;
                         }
-                        string nextp = "";
-                        if (i < p.Count - 1)
-                        {
-                            nextp = p[i + 1];
-                        }
                         string beforep = "";
                         if (i >= 1)
                         {
                             beforep = p[i - 1];
                         }
-                        filecontent += getNiaoNiaoSoundStr(p[i], beginat, length, nextp,beforep);
+                        string nextp = "";
+                        if (i < p.Count - 1)
+                        {
+                            nextp = p[i + 1];
+                        }
+
+                        filecontent += getNiaoNiaoSoundStr(p[i], beginat, length, beforep, nextp);
                         beginat += d + length;
                         num++;
                     }
