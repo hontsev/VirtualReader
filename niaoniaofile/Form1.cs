@@ -15,7 +15,6 @@ namespace niaoniaofile
 {
     public partial class Form1 : Form
     {
-        public delegate void sendStringDelegate(string str);
         private NiaoNiaoFileController nnc;
 
         public Form1()
@@ -28,7 +27,7 @@ namespace niaoniaofile
         {
             if (textBox2.InvokeRequired)
             {
-                sendStringDelegate mevent = new sendStringDelegate(print);
+                MyDelegates.sendStringDelegate mevent = new MyDelegates.sendStringDelegate(print);
                 Invoke(mevent, (object)str);
             }
             else
@@ -80,18 +79,19 @@ namespace niaoniaofile
         private void getNNFile(object str)
         {
 
-            print("开始生成袅袅文件。。");
-            string path = @"output\";
+            print("开始生成袅袅文件，请稍候");
+            string path = Application.StartupPath+@"\output\";
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
             string filename = @"output.nn";
-            using (FileStream fs = new FileStream(path + filename, FileMode.Create))
+            string file=path+filename;
+            using (FileStream fs = new FileStream(file, FileMode.Create))
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.Write(nnc.getNiaoNiaoFile(str as string));
+                    sw.Write(nnc.getNiaoNiaoFile(str as string,this.print));
                 }
             }
-            print("生成完毕。");
+            print(string.Format("生成完毕。输出路径为\r\n{0}",file));
         }
 
 
@@ -104,6 +104,8 @@ namespace niaoniaofile
 
         private void button2_Click(object sender, EventArgs e)
         {
+            textBox2.Text = "";
+            nnc.soundSpeed = int.Parse(numericUpDown2.Value.ToString());
             nnc.soundheight = int.Parse(numericUpDown1.Value.ToString());
             new Thread(getNNFile).Start(textBox1.Text);
         }
@@ -148,25 +150,73 @@ namespace niaoniaofile
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            string str = textBox3.Text;
-            if (!string.IsNullOrWhiteSpace(str))
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            using (FileStream fs = new FileStream(@"Dictionary\Dictionary.txt", FileMode.OpenOrCreate))
             {
-                char ch = str[0];
-                try
+                using (StreamReader sr = new StreamReader(fs))
                 {
-                    var res = PinYinConverter.GetPinYinWithTone(ch);
-                    string resstr = ch.ToString() + "\r\n";
-                    foreach (var r in res)
+                    while (!sr.EndOfStream)
                     {
-                        resstr += string.Format("{0},", r);
-                    }
-                    print(resstr);
-                }
-                catch
-                {
+                        string[] tmp = sr.ReadLine().Split('|');
+                        if (tmp.Length == 2)
+                        {
+                            try
+                            {
+                                int index = tmp[0].IndexOf('行');
+                                if (index >= 0)
+                                {
+                                    string[] list = tmp[1].Split(' ');
+                                    if (list[index] == "xing4") { list[index] = "xing2"; }
+                                    string tmp1 = "";
+                                    foreach (var i in list) tmp1 += i + " ";
+                                    if (tmp1.EndsWith(" ")) tmp1 = tmp1.Substring(0, tmp1.Length - 1);
+                                    dictionary[tmp[0]] = tmp1;
+                                }
+                                else
+                                {
+                                    dictionary[tmp[0]] = tmp[1];
+                                }
 
+                            }
+                            catch
+                            {
+                            }
+                        }
+                    }
                 }
             }
+
+            using (FileStream fs = new FileStream(@"Dictionary\Dictionary.txt", FileMode.Create))
+            {
+                using (StreamWriter sr = new StreamWriter(fs))
+                {
+                    foreach (var item in dictionary)
+                    {
+                        sr.WriteLine("{0}|{1}", item.Key, item.Value);
+                    }
+                }
+            }
+            //string str = textBox3.Text;
+            //if (!string.IsNullOrWhiteSpace(str))
+            //{
+            //    char ch = str[0];
+            //    try
+            //    {
+            //        print(((int)ch).ToString());
+
+            //        var res = PinYinConverter.GetPinYinWithTone(ch);
+            //        string resstr = ch.ToString() + "\r\n";
+            //        foreach (var r in res)
+            //        {
+            //            resstr += string.Format("{0},", r);
+            //        }
+            //        print(resstr);
+            //    }
+            //    catch
+            //    {
+
+            //    }
+            //}
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -306,6 +356,16 @@ namespace niaoniaofile
         private void button4_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            textBox1.Focus();
         }
     }
 }

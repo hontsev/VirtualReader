@@ -96,6 +96,103 @@ namespace niaoniaofile
             return result.ToArray();
         }
 
+
+        /// <summary>
+        /// 将全角字符转化为半角
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        private static string replaceFullhalfChars(string str)
+        {
+            string res = "";
+
+            foreach (var s in str)
+            {
+                if (s > 65280 && s < 65375)
+                {
+                    res += (char)(s - 65248);
+                }
+                else if (s == 12288)
+                {
+                    res += (char)32;
+                }
+                else
+                {
+                    res += s;
+                }
+            }
+
+            return res;
+        }
+
+        /// <summary>
+        /// 将英文字母转换成读音近似的汉字
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <returns></returns>
+        private string englishChar2Han(char ch)
+        {
+            Dictionary<char, string> dict = new Dictionary<char, string>();
+            dict['a'] = "欸";
+            dict['b'] = "必";
+            dict['c'] = "西";
+            dict['d'] = "第";
+            dict['e'] = "易";
+            dict['f'] = "癌赴";
+            dict['g'] = "寄";
+            dict['h'] = "诶赤";
+            dict['i'] = "爱";
+            dict['j'] = "这誒";
+            dict['k'] = "克誒";
+            dict['l'] = "癌瓯";
+            dict['m'] = "癌木";
+            dict['n'] = "恩";
+            dict['o'] = "欧";
+            dict['p'] = "屁";
+            dict['q'] = "丘";
+            dict['r'] = "吖";
+            dict['s'] = "癌思";
+            dict['t'] = "替";
+            dict['u'] = "优";
+            dict['v'] = "微";
+            dict['w'] = "答不溜";
+            dict['x'] = "癌克四";
+            dict['y'] = "外";
+            dict['z'] = "戝";
+
+            try
+            {
+                return dict[ch];
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        /// <summary>
+        /// 将字符串中的英文字母部分转换为对应的音译汉字
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        private string translateEnglishChars(string str)
+        {
+            string res = "";
+            str = str.ToLower();
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] >= 'a' && str[i] <= 'z')
+                {
+                    res += englishChar2Han(str[i]);
+                }
+                else
+                {
+                    res += str[i];
+                }
+            }
+            return res;
+        }
+
         /// <summary>
         /// 生成数字串对应的汉语读法
         /// </summary>
@@ -106,17 +203,17 @@ namespace niaoniaofile
         {
             if (string.IsNullOrWhiteSpace(numberString) || !Regex.IsMatch(numberString, @"\d*")) return "";
 
-            Dictionary<int, char> hannum = new Dictionary<int, char>();
-            hannum[0] = '零';
-            hannum[1] = '一';
-            hannum[2] = '二';
-            hannum[3] = '三';
-            hannum[4] = '四';
-            hannum[5] = '五';
-            hannum[6] = '六';
-            hannum[7] = '七';
-            hannum[8] = '八';
-            hannum[9] = '九';
+            Dictionary<char, char> hannum = new Dictionary<char, char>();
+            hannum['0'] = '零';
+            hannum['1'] = '一';
+            hannum['2'] = '二';
+            hannum['3'] = '三';
+            hannum['4'] = '四';
+            hannum['5'] = '五';
+            hannum['6'] = '六';
+            hannum['7'] = '七';
+            hannum['8'] = '八';
+            hannum['9'] = '九';
 
             string res = "";
             if (!isCount)
@@ -124,7 +221,7 @@ namespace niaoniaofile
                 //用数字串读法来读
                 foreach (var n in numberString)
                 {
-                    res += hannum[int.Parse(n.ToString())];
+                    res += hannum[n];
                 }
             }
             else
@@ -148,7 +245,7 @@ namespace niaoniaofile
 
                     if(!(nownum == 0 && res.StartsWith("零")))
                     {
-                        res = hannum[nownum] + res;
+                        res = hannum[nownum.ToString()[0]] + res;
                     }
                     if (nownum == 0 && i == 4) res = "万" + res;
                 }
@@ -171,6 +268,11 @@ namespace niaoniaofile
             return res;
         }
 
+        /// <summary>
+        /// 将字符串中的数字部分转换为汉字的数字
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         private string translateNumbers(string str)
         {
             string res="";
@@ -178,7 +280,7 @@ namespace niaoniaofile
 
             for (int i = 0; i < str.Length; i++)
             {
-                if (str[i] >= '0' && str[i] <= '9')
+                if ("0123456789".Contains(str[i]))
                 {
                     numstr += str[i];
                 }
@@ -187,7 +289,7 @@ namespace niaoniaofile
                     if (str[i] == '年' || numstr.Length >= 8) res += number2Han(numstr, false);
                     else res += number2Han(numstr);
                     res += str[i];
-                    numstr="";
+                    numstr = "";
                 }
             }
             if (!string.IsNullOrWhiteSpace(numstr))
@@ -198,6 +300,16 @@ namespace niaoniaofile
             return res;
         }
 
+        private string replaceSymbolsWithComma(string str)
+        {
+            string symbols = ",.:;!?()。：；、\t（）？！—…\n";
+            foreach (var ch in symbols)
+            {
+                str = str.Replace(ch, '，');
+            }
+            return str;
+        }
+
         /// <summary>
         /// 细细地切分，每一个标点都切开
         /// </summary>
@@ -205,27 +317,19 @@ namespace niaoniaofile
         /// <returns></returns>
         public string[] cutSentencesAll(string str)
         {
+            str = replaceFullhalfChars(str);
             List<string> result = new List<string>();
 
-            string[] tmp = str
-                .Replace('：', '，')
-                .Replace('。', '，')
-                .Replace('\n', '，')
-                .Replace('；', '，')
-                .Replace('、', '，')
-                .Replace('？', '，')
-                .Replace('！', '，')
-                .Replace('!', '，')
-                .Replace('?', '，')
-                .Replace('…', '，')
-                .Split('，');
+            string[] tmp = this.replaceSymbolsWithComma(str).Split('，');
 
 
             for (int i = 0; i < tmp.Length; i++)
             {
                 tmp[i] = translateNumbers(tmp[i]);
-                if (!string.IsNullOrWhiteSpace(Regex.Replace(tmp[i], @"[^\u4e00-\u9fa5]*", "")))
-                    result.Add(tmp[i]);
+                tmp[i] = translateEnglishChars(tmp[i]);
+                string han=Regex.Replace(tmp[i], @"[^\u4e00-\u9fa5]*", "");
+                if (!string.IsNullOrWhiteSpace(han))
+                    result.Add(han);
             }
 
             return result.ToArray();
@@ -366,12 +470,8 @@ namespace niaoniaofile
 
         private bool isNumberWord(char ch)
         {
-            char[] numberWord = { '零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '百', '千', '万', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖', '拾', '佰', '仟', '亿', '兆', '年', '月', '日', '时', '分', '秒' };
-            foreach (var c in numberWord)
-            {
-                if (ch == c) return true;
-            }
-            return false;
+            string numberWord = "零一二三四五六七八九十百千万壹贰叁肆伍陆柒捌玖拾佰仟亿兆年月日时分秒";
+            return numberWord.Contains(ch.ToString());
         }
 
         /// <summary>
@@ -449,6 +549,7 @@ namespace niaoniaofile
         /// <returns></returns>
         public List<List<string>> getPinYinList(string sentence)
         {
+            
             JiebaNet.Segmenter.JiebaSegmenter seg = new JiebaSegmenter();
             var words1 = seg.Cut(sentence);
             List<string> words = new List<string>();
