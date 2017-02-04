@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 using System.Text.RegularExpressions;
+using System.Speech.Synthesis.TtsEngine;
 
 namespace niaoniaofile
 {
@@ -134,6 +135,46 @@ namespace niaoniaofile
             setGUIStatus(true);
         }
 
+        private static string removeInvalidChars(string str)
+        {
+            string strFileName = str;
+            StringBuilder rBuilder = new StringBuilder(strFileName);
+            foreach (char rInvalidChar in Path.GetInvalidFileNameChars())
+                rBuilder.Replace(rInvalidChar.ToString(), string.Empty);
+            return str;
+        }
+
+        private void getNNFileBySpeakers(object str)
+        {
+            setGUIStatus(false);
+            print("开始生成袅袅文件，请稍候");
+            string path = Application.StartupPath + @"\output\files\";
+            if (Directory.Exists(path)) Directory.Delete(path,true);
+            Directory.CreateDirectory(path);
+            //string filename = @"output.nn";
+            string[] sentences = ((string)str).Split('\n');
+            for(int i=0;i<sentences.Length;i++)
+            {
+                string s = sentences[i].Replace("\r", "");
+                int begin=s.IndexOf("：");
+                if(begin<0)continue;
+                string speaker=s.Substring(0,begin);
+                string content=s.Substring(begin);
+                string filename = string.Format("{0}{1}{2}.nn", i.ToString().PadLeft(4,'0'), speaker, removeInvalidChars(content).Substring(0, Math.Min(10, removeInvalidChars(content).Length)));
+                string file = path + filename;
+                using (FileStream fs = new FileStream(file, FileMode.Create))
+                {
+                    using (StreamWriter sw = new StreamWriter(fs))
+                    {
+                        sw.Write(nnc.getNiaoNiaoFile(content, this.print));
+                    }
+                }
+            }
+
+            print(string.Format("生成完毕。输出路径为\r\n{0}", path));
+            setGUIStatus(true);
+        }
+
         private void getUTAUFile(object str)
         {
             setGUIStatus(false);
@@ -164,7 +205,15 @@ namespace niaoniaofile
             textBox2.Text = "";
             nnc.soundSpeed = int.Parse(numericUpDown2.Value.ToString());
             nnc.soundheight = int.Parse(numericUpDown1.Value.ToString());
-            new Thread(getNNFile).Start(textBox1.Text);
+            if (checkBox1.Checked)
+            {
+                new Thread(getNNFileBySpeakers).Start(textBox1.Text);
+            }
+            else
+            {
+                new Thread(getNNFile).Start(textBox1.Text);
+            }
+            
         }
 
         //private void button1_Click(object sender, EventArgs e)
@@ -467,6 +516,30 @@ namespace niaoniaofile
             
             
             new Thread(getPinYinString).Start((object)textBox1.Text.ToString());
+        }
+
+        private void speak(object str)
+        {
+            //print("开始调微软的工具阅读此文本");
+            //System.Speech.Synthesis.SpeechSynthesizer sp = new System.Speech.Synthesis.SpeechSynthesizer();
+            //string readsource = str as string;
+            //// Configure the audio output. 
+            //sp.SetOutputToDefaultAudioDevice();
+            //sp.SelectVoice("Microsoft Server Speech Text to Speech Voice (zh-CN, HuiHui)")
+            //// Speak a string.
+            //sp.Speak(readsource);
+        }
+
+
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            new Thread(speak).Start((object)textBox1.Text);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", Application.StartupPath + "\\output\\");
         }
     }
 }

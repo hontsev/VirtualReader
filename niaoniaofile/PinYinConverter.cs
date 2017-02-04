@@ -302,7 +302,7 @@ namespace niaoniaofile
 
         private string replaceSymbolsWithComma(string str)
         {
-            string symbols = ",.:;!?()。：；、\t（）？！—…\n";
+            string symbols = ",.:;!?~()。：；、\t（）？！—…\n";
             foreach (var ch in symbols)
             {
                 str = str.Replace(ch, '，');

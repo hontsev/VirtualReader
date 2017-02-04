@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "niaoniaofile", "niaoniaofile\niaoniaofile.csproj", "{ABA90F8B-3B4B-45CD-963C-63C2F0541EFB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechSynthesizer", "niaoniaofile\SpeechSynthesizer.csproj", "{ABA90F8B-3B4B-45CD-963C-63C2F0541EFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
