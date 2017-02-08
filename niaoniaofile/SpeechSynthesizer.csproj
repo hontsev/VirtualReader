@@ -60,6 +60,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\Program Files\Microsoft SDKs\Speech\v11.0\Assembly\Microsoft.Speech.dll</HintPath>
     </Reference>
+    <Reference Include="mySpeechSynthesizer">
+      <HintPath>..\..\nntest\mySpeechSynthesizer\bin\Debug\mySpeechSynthesizer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\jieba.NET-master\jieba.NET-master\src\Segmenter\bin\Debug\Newtonsoft.Json.dll</HintPath>
@@ -84,6 +88,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="MyDelegates.cs" />
+    <Compile Include="MYSSController.cs" />
     <Compile Include="NiaoNiaoFileController.cs" />
     <Compile Include="PinYinConverter.cs" />
     <Compile Include="PinyinDictionary.cs" />

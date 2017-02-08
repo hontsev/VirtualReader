@@ -1,4 +1,4 @@
-﻿namespace niaoniaofile
+﻿namespace SpeechSynthesizer
 {
     partial class Form1
     {
@@ -42,18 +42,26 @@
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.button8 = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button7 = new System.Windows.Forms.Button();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -61,7 +69,10 @@
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
+            this.tabPage5.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -191,6 +202,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(418, 12);
             this.tabControl1.Name = "tabControl1";
@@ -213,6 +225,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "生成.nn文件";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(20, 77);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(144, 16);
+            this.checkBox1.TabIndex = 12;
+            this.checkBox1.Text = "按角色拆分成单句输出";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
@@ -301,6 +323,32 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.numericUpDown5);
+            this.tabPage5.Controls.Add(this.numericUpDown6);
+            this.tabPage5.Controls.Add(this.label6);
+            this.tabPage5.Controls.Add(this.label7);
+            this.tabPage5.Controls.Add(this.label5);
+            this.tabPage5.Controls.Add(this.textBox5);
+            this.tabPage5.Controls.Add(this.button8);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(286, 218);
+            this.tabPage5.TabIndex = 3;
+            this.tabPage5.Text = "自制合成";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(57, 150);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(176, 54);
+            this.button8.TabIndex = 2;
+            this.button8.Text = "开始转化√";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.button6);
@@ -346,16 +394,6 @@
             this.textBox4.Size = new System.Drawing.Size(199, 171);
             this.textBox4.TabIndex = 13;
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(20, 77);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(144, 16);
-            this.checkBox1.TabIndex = 12;
-            this.checkBox1.Text = "按角色拆分成单句输出";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(294, 370);
@@ -365,6 +403,90 @@
             this.button7.Text = "打开输出路径";
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(21, 34);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(250, 21);
+            this.textBox5.TabIndex = 3;
+            this.textBox5.Text = "D:\\Program Files\\袅袅虚拟歌手v2.2\\src\\枸杞子";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(21, 16);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 12);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "袅袅音源路径";
+            // 
+            // numericUpDown5
+            // 
+            this.numericUpDown5.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown5.Location = new System.Drawing.Point(125, 88);
+            this.numericUpDown5.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown5.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numericUpDown5.Name = "numericUpDown5";
+            this.numericUpDown5.Size = new System.Drawing.Size(80, 21);
+            this.numericUpDown5.TabIndex = 19;
+            this.numericUpDown5.Value = new decimal(new int[] {
+            600,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDown6
+            // 
+            this.numericUpDown6.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDown6.Location = new System.Drawing.Point(125, 61);
+            this.numericUpDown6.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown6.Name = "numericUpDown6";
+            this.numericUpDown6.Size = new System.Drawing.Size(80, 21);
+            this.numericUpDown6.TabIndex = 16;
+            this.numericUpDown6.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(30, 95);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(29, 12);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "速度";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(30, 68);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(47, 12);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "音高(%)";
             // 
             // Form1
             // 
@@ -392,8 +514,12 @@
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -426,6 +552,14 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.NumericUpDown numericUpDown5;
+        private System.Windows.Forms.NumericUpDown numericUpDown6;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
     }
 }
 

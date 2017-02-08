@@ -12,12 +12,13 @@ using System.Threading;
 using System.Text.RegularExpressions;
 using System.Speech.Synthesis.TtsEngine;
 
-namespace niaoniaofile
+namespace SpeechSynthesizer
 {
     public partial class Form1 : Form
     {
         private NiaoNiaoFileController nnc;
         private UTAUFileController utauc;
+        private MYSSController myssc;
 
         public Form1()
         {
@@ -191,6 +192,26 @@ namespace niaoniaofile
                 }
             }
             print(string.Format("生成完毕。输出路径为\r\n{0}", file));
+            setGUIStatus(true);
+        }
+
+        private void getMYSS(object str)
+        {
+            setGUIStatus(false);
+            print("开始合成，请稍候");
+            myssc.showSound(str as string, this.print);
+            //string path = Application.StartupPath + @"\output\";
+            //if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+            //string filename = @"output.ust";
+            //string file = path + filename;
+            //using (FileStream fs = new FileStream(file, FileMode.Create))
+            //{
+            //    using (StreamWriter sw = new StreamWriter(fs))
+            //    {
+            //        sw.Write(utauc.getUSTFile(str as string, this.print));
+            //    }
+            //}
+            //print(string.Format("生成完毕。输出路径为\r\n{0}", file));
             setGUIStatus(true);
         }
 
@@ -540,6 +561,18 @@ namespace niaoniaofile
         private void button7_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", Application.StartupPath + "\\output\\");
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            print("开始初始化合成引擎");
+            int speed = int.Parse(numericUpDown5.Value.ToString());
+            int height = int.Parse(numericUpDown6.Value.ToString());
+            this.myssc = new MYSSController(textBox5.Text);
+            myssc.soundheight = height;
+            myssc.soundSpeed = speed;
+            
+            new Thread(getMYSS).Start((object)textBox1.Text.ToString());
         }
     }
 }

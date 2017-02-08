@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using JiebaNet.Segmenter;
 
-namespace niaoniaofile
+namespace SpeechSynthesizer
 {
     /// <summary>
     /// 汉字拼音转换类

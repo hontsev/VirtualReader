@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace niaoniaofile
+namespace SpeechSynthesizer
 {
     /// <summary>
     /// 分词算法

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 //using System.Threading.Tasks;
 using System.IO;
 
-namespace niaoniaofile
+namespace SpeechSynthesizer
 {
     class PinyinDictionary
     {
