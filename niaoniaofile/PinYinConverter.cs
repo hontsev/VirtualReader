@@ -302,11 +302,25 @@ namespace SpeechSynthesizer
 
         private string replaceSymbolsWithComma(string str)
         {
-            string symbols = ",.:;!?~()。：；、\t（）？！—…\n";
+            string symbols = ",:;!?~·()。：；、\t（）？！—…\n";
             foreach (var ch in symbols)
             {
                 str = str.Replace(ch, '，');
             }
+            return str;
+        }
+
+        private string translateSymbols(string str)
+        {
+            str = str
+                .Replace(".", "点")
+                .Replace("=", "等于")
+                .Replace("+", "加")
+                .Replace("-", "减")
+                .Replace("＞", "大于")
+                .Replace("≥", "大于等于")
+                .Replace("＜", "小于")
+                .Replace("≤", "小于等于");
             return str;
         }
 
@@ -327,6 +341,7 @@ namespace SpeechSynthesizer
             {
                 tmp[i] = translateNumbers(tmp[i]);
                 tmp[i] = translateEnglishChars(tmp[i]);
+                tmp[i] = translateSymbols(tmp[i]);
                 string han=Regex.Replace(tmp[i], @"[^\u4e00-\u9fa5]*", "");
                 if (!string.IsNullOrWhiteSpace(han))
                     result.Add(han);
@@ -573,7 +588,14 @@ namespace SpeechSynthesizer
             }
             if (!string.IsNullOrWhiteSpace(thisword))
             {
-                res.Add(thisword);
+                if (thisword.Length==1 && res.Count>0)
+                {
+                    res[res.Count - 1] = res[res.Count - 1] + thisword;
+                }
+                else
+                {
+                    res.Add(thisword);
+                }
             }
 
             return res;

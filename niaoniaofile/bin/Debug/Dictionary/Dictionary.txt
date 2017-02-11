@@ -101543,11 +101543,11 @@
 少年之家|shao3 nian2 zhi1 jia1
 少年子|shao3 nian2 zi3
 少尿型肾|shao3 niao4 xing2 shen4
-少女|shao3 nv3
+少女|shao4 nv3
 少陪|shao3 pei2
 烧瓶|shao1 ping2
 少气无力|shao3 qi4 wu2 li4
-哨卡|shao4 qia1
+哨卡|shao4 qia3
 烧琴煮鹤|shao1 qin2 zhu3 he4
 少顷|shao3 qing3
 稍顷|shao1 qing3
@@ -155871,7 +155871,7 @@
 子午圈|zi3 wu3 quan1
 子午双刀|zi3 wu3 shuang1 dao1
 子午线|zi3 wu3 xian4
-仔细|zi1 xi4
+仔细|zi3 xi4
 子媳|zi3 xi2
 子息|zi3 xi1
 自习|zi4 xi2
@@ -157572,3 +157572,7 @@
 只记得|zhi3 ji4 de2
 长得|zhang3 de2
 长公主|zhang3 gong1 zhu3
+一切|yi2 qie4
+天朝|tian1 chao2
+不着|bu4 zhao2
+不得了|bu4 de2 liao3

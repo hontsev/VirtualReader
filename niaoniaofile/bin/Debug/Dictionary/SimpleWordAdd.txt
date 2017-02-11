@@ -636,7 +636,7 @@
 吩|fen1
 吹|chui1
 呜|wu1
-吧|ba1
+吧|ba5
 吼|hou3
 别|bie2
 岗|gang3
@@ -2666,7 +2666,7 @@
 歧|qi2
 卓|zhuo2
 昙|tan2
-哎|ai1
+哎|ai4
 咕|gu1
 呵|he1
 咙|long2
