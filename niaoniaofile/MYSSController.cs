@@ -18,8 +18,8 @@ namespace SpeechSynthesizer
         public int soundheight;
         public int soundSpeed;
 
-        string[] sounds;
-        List<int[]> soundOrigins;
+        NNTone[] sounds;
+        ToneList tl;
         public string filepath = "";
         string output =  @"output\tmp.wav";
         string outputOri = @"output\tmp_origin.wav";
@@ -33,83 +33,10 @@ namespace SpeechSynthesizer
 
             //init
             filepath = sourcePath;
-
-            initParams();
-            initParamOrigins();
-
-
-        }
-
-        public string getHeader(int soundnum,int maxlen)
-        {
-            int blocknum = (maxlen / 32) + 2;
-            string header = string.Format("{0}.0 4 4 {1} 19 0 0 0 0 0\n{2}\n", soundSpeed, blocknum, soundnum);
-            return header;
-        }
+            sounds = NNAnalysis.getParamsFromNN(filepath);
+            tl = SoundAnalysis.analysisAll(filepath);
 
 
-        public string DecodeBase64(string code, string code_type = "utf-8")
-        {
-            string decode = "";
-            byte[] bytes = Convert.FromBase64String(code);
-            try
-            {
-                decode = Encoding.GetEncoding(code_type).GetString(bytes);
-            }
-            catch
-            {
-                decode = code;
-            }
-            return decode;
-        }
-
-        public byte[] readVoiceD(int begin = 0, int len = -1)
-        {
-            string file = filepath + "voice.d";
-            byte[] res;
-
-            using (FileStream fs = new FileStream(file, FileMode.Open))
-            {
-                using (BinaryReader sr = new BinaryReader(fs))
-                {
-                    if (len < 0) len = (int)fs.Length;
-                    res = new byte[len];
-                    fs.Seek(begin, SeekOrigin.Begin);
-                    res = sr.ReadBytes(len);
-                }
-            }
-            return res;
-        }
-        public void initParams()
-        {
-            string file = filepath + "inf.d";
-            List<string> res = new List<string>();
-            using (FileStream fs = new FileStream(file, FileMode.Open))
-            {
-                using (StreamReader sr = new StreamReader(fs))
-                {
-                    while (!sr.EndOfStream)
-                    {
-                        string nowstr = DecodeBase64(sr.ReadLine()).Replace("\r", "").Replace("\n", "");
-                        res.Add(nowstr);
-                    }
-                }
-            }
-            res.RemoveAt(0);
-            res.RemoveAt(0);
-            sounds=res.ToArray();
-        }
-
-        public void initParamOrigins()
-        {
-            this.soundOrigins = new List<int[]>();
-            foreach (string item in sounds)
-            {
-                string[] tmp = item.Split(' ');
-                int begin = int.Parse(tmp[1]);
-                int end = int.Parse(tmp[2]);
-                soundOrigins.Add(WAVAnalyzer.getSample(readVoiceD(begin, end)));
-            }
         }
 
         public int[] getZipDatas(int toneNum,int beforeToneNum=-1,int nextToneNum=-1)
@@ -150,38 +77,16 @@ namespace SpeechSynthesizer
 
 
 
-        public int[] getSoundData(int n,int pit, double len=1.0)
+        public int[] getSoundData(string name,int[] pitdata, int len=500)
         {
-            //int pit = int.Parse(numericUpDown1.Value.ToString());
-            int[] pitdata = getZipDatas(pit);
-            //double len = double.Parse(numericUpDown2.Value.ToString()) / 100;
-            //string[] tmp = sounds[n].Split(' ');
-            //int begin = int.Parse(tmp[1]);
-            //int end = int.Parse(tmp[2]);
-            //int head = int.Parse(tmp[3]);
-            //int foot = int.Parse(tmp[4]);
-            return WAVAnalyzer.getWAVdata(soundOrigins[n], len, pitdata);
-            
-            //System.Media.SoundPlayer player = new System.Media.SoundPlayer(outputTone);
-            //player.PlaySync();
-        }
-
-        private int getTargetNumber(string ch)
-        {
-            for (int i=0;i<sounds.Length;i++)
-            {
-                if (sounds[i].Split(' ')[0] == ch)
-                {
-                    return i;
-                }
-            }
-            return 0;
+            int[] res = SoundAnalysis.synthesis(tl, name, pitdata, len, 1.0);
+            return res;
         }
 
         public void writeWAV(int[] wavdata,string filename=null)
         {
             if (filename == null) filename = outputTone;
-            WAVAnalyzer.writeWAV(wavdata, filename);
+            WAVControl.writeWAV(wavdata, filename);
         }
 
         public void playSound(string filename)
@@ -216,7 +121,7 @@ namespace SpeechSynthesizer
                 foreach (var p in pinyin)
                 {
                     int d;
-                    double length = 1;
+                    int duration = 500;
                     for (int i = 0; i < p.Count; i++)
                     {
                         if (i < p.Count - 1)
@@ -228,27 +133,27 @@ namespace SpeechSynthesizer
                         if (p[i].EndsWith("5"))
                         {
                             //轻声
-                            length = 0.85;
+                            duration = 425;
                             //if (p.Count == 1 && index > 0) index -= 1;
                         }
                         else if (p[i].EndsWith("3"))
                         {
                             //上声，念得长
-                            length = 1.15;
+                            duration = 575;
                         }
                         else if (p[i].EndsWith("4") && i == p.Count - 1)
                         {
                             //去声且在结尾，念得短
-                            length = 1;
+                            duration = 500;
                         }
                         else if (p[i].EndsWith("2") && i < p.Count - 1)
                         {
                             //阳平且在句中，念得短
-                            length = 0.95;
+                            duration = 475;
                         }
                         else
                         {
-                            length = 1;
+                            duration = 500;
                         }
                         string beforep = "";
                         int beforetonenum = -1;
@@ -269,29 +174,16 @@ namespace SpeechSynthesizer
 
                         double sneeze = 0.22;
                         double part = 1.0 * (sneeze / 2);
-                        int[] thisSoundFrame = WAVAnalyzer.getWAVdata(
-                            soundOrigins[getTargetNumber(ch)],
-                            (double)(length + part) * ((double)100 / soundSpeed), 
-                            getZipDatas(tonenum, beforetonenum,nexttonenum));
+                        int[] thisSoundFrame = getSoundData(ch, getZipDatas(tonenum, beforetonenum, nexttonenum), duration);
                         for (int k = 0; k < thisSoundFrame.Length;k++ )
                         {
                             thisSoundFrame[k] = (int)((double)thisSoundFrame[k] * soundheight / 100);
                         }
                         
-                        //for (int k = 0; k < partlen; k++)
-                        //{
-                        //    thisSoundFrame[k] = (int)(thisSoundFrame[k] * ((double)k / partlen));
-                        //}
-                        //for (int k = thisSoundFrame.Length - partlen; k < partlen; k++)
-                        //{
-                        //    thisSoundFrame[k] = (int)(thisSoundFrame[k] * (1 - (double)k / partlen));
-                        //}
                         int partlen = (int)(thisSoundFrame.Length * part);
-                        //if (thisSoundFrame.Length >= partlen)
-                        //{
+
                             for (int k = 0; k < partlen; k++)
                             {
-                                //allres[allres.Count - partlen + k] = (int)(allres[allres.Count - partlen + k] * ((double)k / partlen) + thisSoundFrame[k]*(1 - (double)k / partlen));
                                 allres[allres.Count - partlen + k] = (int)(allres[allres.Count - partlen + k] * 1 + thisSoundFrame[k] * 1);
 
                             }
@@ -299,16 +191,6 @@ namespace SpeechSynthesizer
                             {
                                 allres.Add(thisSoundFrame[k]);
                             }
-                        //}
-                        //else
-                        //{
-                        //    for (int k = 0; k < thisSoundFrame.Length; k++)
-                        //    {
-                        //        allres.Add(thisSoundFrame[k]);
-                        //    }
-                        //}
-                        
-                        //foreach (var s in thisSoundFrame) allres.Add((int)((double)s*soundheight/100));
 
                         
                         if (d > 0)

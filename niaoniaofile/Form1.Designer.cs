@@ -84,7 +84,7 @@
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(77, 198);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(235, 68);
             this.button2.TabIndex = 1;
@@ -95,7 +95,7 @@
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(16, 15);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.MaxLength = 327670000;
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -107,7 +107,7 @@
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(557, 328);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
@@ -118,7 +118,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(281, 15);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(92, 29);
             this.button1.TabIndex = 4;
@@ -129,7 +129,7 @@
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(8, 15);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(264, 25);
             this.textBox3.TabIndex = 5;
@@ -137,7 +137,7 @@
             // numericUpDown1
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(151, 8);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             47,
             0,
@@ -170,7 +170,7 @@
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(16, 462);
-            this.button4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(92, 29);
             this.button4.TabIndex = 9;
@@ -191,7 +191,7 @@
             // numericUpDown2
             // 
             this.numericUpDown2.Location = new System.Drawing.Point(151, 41);
-            this.numericUpDown2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown2.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             240,
             0,
@@ -218,7 +218,7 @@
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(557, 15);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(392, 305);
@@ -233,9 +233,9 @@
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage1.Size = new System.Drawing.Size(384, 276);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "生成.nn文件";
@@ -245,7 +245,7 @@
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(27, 96);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(179, 19);
             this.checkBox1.TabIndex = 12;
@@ -260,9 +260,9 @@
             this.tabPage2.Controls.Add(this.label4);
             this.tabPage2.Controls.Add(this.button3);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage2.Size = new System.Drawing.Size(384, 276);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "生成ust工程";
@@ -271,7 +271,7 @@
             // numericUpDown3
             // 
             this.numericUpDown3.Location = new System.Drawing.Point(160, 52);
-            this.numericUpDown3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown3.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown3.Maximum = new decimal(new int[] {
             240,
             0,
@@ -294,7 +294,7 @@
             // numericUpDown4
             // 
             this.numericUpDown4.Location = new System.Drawing.Point(160, 19);
-            this.numericUpDown4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown4.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown4.Maximum = new decimal(new int[] {
             200,
             0,
@@ -337,7 +337,7 @@
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(76, 198);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button3.Margin = new System.Windows.Forms.Padding(4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(235, 68);
             this.button3.TabIndex = 2;
@@ -356,7 +356,7 @@
             this.tabPage5.Controls.Add(this.textBox5);
             this.tabPage5.Controls.Add(this.button8);
             this.tabPage5.Location = new System.Drawing.Point(4, 25);
-            this.tabPage5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage5.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Size = new System.Drawing.Size(384, 276);
             this.tabPage5.TabIndex = 3;
@@ -366,7 +366,7 @@
             // button9
             // 
             this.button9.Location = new System.Drawing.Point(76, 148);
-            this.button9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button9.Margin = new System.Windows.Forms.Padding(4);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(235, 32);
             this.button9.TabIndex = 20;
@@ -382,7 +382,7 @@
             0,
             0});
             this.numericUpDown5.Location = new System.Drawing.Point(167, 110);
-            this.numericUpDown5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown5.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown5.Maximum = new decimal(new int[] {
             500,
             0,
@@ -410,7 +410,7 @@
             0,
             0});
             this.numericUpDown6.Location = new System.Drawing.Point(167, 76);
-            this.numericUpDown6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown6.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown6.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -463,16 +463,16 @@
             // textBox5
             // 
             this.textBox5.Location = new System.Drawing.Point(28, 42);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox5.Margin = new System.Windows.Forms.Padding(4);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(332, 25);
             this.textBox5.TabIndex = 3;
-            this.textBox5.Text = "D:\\Program Files\\袅袅虚拟歌手v2.2\\src\\枸杞子";
+            this.textBox5.Text = "D:\\Program Files\\袅袅虚拟歌手v2.2%28附余袅袅音源%29\\袅袅虚拟歌手v2.2\\src\\西方苦瓜 v1.1";
             // 
             // button8
             // 
             this.button8.Location = new System.Drawing.Point(76, 188);
-            this.button8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button8.Margin = new System.Windows.Forms.Padding(4);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(235, 68);
             this.button8.TabIndex = 2;
@@ -488,7 +488,7 @@
             this.tabPage3.Controls.Add(this.button1);
             this.tabPage3.Controls.Add(this.textBox3);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(384, 276);
             this.tabPage3.TabIndex = 2;
@@ -498,7 +498,7 @@
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(281, 85);
-            this.button6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button6.Margin = new System.Windows.Forms.Padding(4);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(92, 29);
             this.button6.TabIndex = 15;
@@ -509,7 +509,7 @@
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(281, 49);
-            this.button5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button5.Margin = new System.Windows.Forms.Padding(4);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(92, 29);
             this.button5.TabIndex = 14;
@@ -520,7 +520,7 @@
             // textBox4
             // 
             this.textBox4.Location = new System.Drawing.Point(8, 51);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(4);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
@@ -531,7 +531,7 @@
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(392, 462);
-            this.button7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button7.Margin = new System.Windows.Forms.Padding(4);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(157, 29);
             this.button7.TabIndex = 13;
@@ -551,7 +551,7 @@
             this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "歌姬朗读文件生成器 v1.2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
