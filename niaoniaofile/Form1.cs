@@ -76,7 +76,7 @@ namespace SpeechSynthesizer
                     button3.Enabled = false;
                     button5.Enabled = false;
                     button8.Enabled = false;
-                    button9.Enabled = false;
+                    //button9.Enabled = false;
                 }
             }
         }
@@ -205,6 +205,7 @@ namespace SpeechSynthesizer
             string[] sentence=sentences as string[];
             for (int i=0;i< sentence.Length;i++)
             {
+                if (!isReading) break;
                 string filename = string.Format(@"{0}tmp_{1}.wav", bufferpath, i);
                 int[] tmp = myssc.showSound(sentence[i], this.print);
                 myssc.writeWAV(tmp,filename);
@@ -225,12 +226,15 @@ namespace SpeechSynthesizer
             new Thread(createMYSSwavs).Start(sentences);
             for (int i = 0; i < sentences.Length; i++)
             {
+                if (!isReading) break;
                 string filename = string.Format(@"{0}tmp_{1}.wav", bufferpath, i);
                 //int[] tmp = myssc.showSound(sentences[i], this.print);
-                while (!File.Exists(filename)) ;
+                while (!File.Exists(filename)) if (!isReading) break;
                 myssc.playSound(filename);
             }
             setGUIStatus(true);
+            isReading = true;
+            setIsReadStatus();
         }
 
         private void getMYSS(object str)
@@ -525,7 +529,14 @@ namespace SpeechSynthesizer
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Environment.Exit(0);
+            try
+            {
+                Environment.Exit(0);
+            }
+            catch
+            {
+
+            }
         }
 
         private void Form1_Shown(object sender, EventArgs e)
@@ -578,11 +589,14 @@ namespace SpeechSynthesizer
         {
             
             
-            new Thread(getPinYinString).Start((object)textBox1.Text.ToString());
+            new Thread(getPinYinString).Start((object)textBox3.Text.ToString());
         }
 
         private void speak(object str)
         {
+            MicrosoftTTS read = new MicrosoftTTS();
+            read.SpeakChina((string)str);
+
             //print("开始调微软的工具阅读此文本");
             //System.Speech.Synthesis.SpeechSynthesizer sp = new System.Speech.Synthesis.SpeechSynthesizer();
             //string readsource = str as string;
@@ -597,7 +611,7 @@ namespace SpeechSynthesizer
 
         private void button6_Click(object sender, EventArgs e)
         {
-            new Thread(speak).Start((object)textBox1.Text);
+            new Thread(speak).Start((object)textBox3.Text);
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -605,17 +619,34 @@ namespace SpeechSynthesizer
             System.Diagnostics.Process.Start("explorer.exe", Application.StartupPath + "\\output\\");
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private bool initMYSS()
         {
             print("开始初始化合成引擎");
             setGUIStatus(false);
-            int speed = int.Parse(numericUpDown5.Value.ToString());
-            int height = int.Parse(numericUpDown6.Value.ToString());
-            this.myssc = new MYSSController(textBox5.Text);
-            myssc.soundheight = height;
-            myssc.soundSpeed = speed;
-            
-            new Thread(getMYSS).Start((object)textBox1.Text.ToString());
+            try
+            {
+                int speed = int.Parse(numericUpDown5.Value.ToString());
+                int height = int.Parse(numericUpDown6.Value.ToString());
+                string filepath = textBox5.Text + @"\";
+                if (myssc == null || myssc.filepath != filepath)
+                    this.myssc = new MYSSController(filepath);
+                myssc.soundheight = height;
+                myssc.soundSpeed = speed;
+            }
+            catch
+            {
+                print("合成引擎初始化失败。");
+                setGUIStatus(true);
+                return false;
+            }
+            return true;
+
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if(initMYSS())
+                new Thread(getMYSS).Start((object)textBox1.Text.ToString());
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
@@ -627,19 +658,39 @@ namespace SpeechSynthesizer
         }
 
 
+        public bool isReading = false;
+        private void setIsReadStatus()
+        {
+            if (button9.InvokeRequired)
+            {
+                MyDelegates.sendVoidDelegate mEvent = new MyDelegates.sendVoidDelegate(setIsReadStatus);
+                Invoke(mEvent);
+            }
+            else
+            {
+                if (isReading)
+                {
+                    //结束朗读线程
+                    isReading = false;
+                    button9.Text = "开始朗读√";
+                }
+                else
+                {
+                    //开始
+                    isReading = true;
+                    button9.Text = "终止朗读√";
+                    button9.Enabled = false;
+                    if (initMYSS())
+                        new Thread(getMYSSandRead).Start((object)textBox1.Text);
+                    button9.Enabled = true;
+                }
+            }
 
+        }
         private void button9_Click(object sender, EventArgs e)
         {
-            
-            print("开始初始化合成引擎");
-            setGUIStatus(false);
-            int speed = int.Parse(numericUpDown5.Value.ToString());
-            int height = int.Parse(numericUpDown6.Value.ToString());
-            this.myssc = new MYSSController(textBox5.Text);
-            myssc.soundheight = height;
-            myssc.soundSpeed = speed;
 
-            new Thread(getMYSSandRead).Start((object)textBox1.Text);
+            setIsReadStatus();
         }
     }
 }

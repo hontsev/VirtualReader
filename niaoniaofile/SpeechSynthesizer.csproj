@@ -87,6 +87,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="MicrosoftTTS.cs" />
     <Compile Include="MyDelegates.cs" />
     <Compile Include="MYSSController.cs" />
     <Compile Include="NiaoNiaoFileController.cs" />

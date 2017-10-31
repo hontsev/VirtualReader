@@ -1715,7 +1715,7 @@
 授|shou4
 教|jiao4
 掏|tao1
-掠|lüe4
+掠|lve4
 培|pei2
 接|jie1
 控|kong4
@@ -1766,12 +1766,12 @@
 眼|yan3
 悬|xuan2
 野|ye3
-啦|la1
+啦|la5
 晚|wan3
 啄|zhuo2
 距|ju4
 跃|yue4
-略|lüe4
+略|lve4
 蛇|she2
 累|lei4
 唱|chang4
@@ -2696,7 +2696,7 @@
 肪|fang2
 狞|ning2
 庞|pang2
-疟|nüe4
+疟|nve4
 疙|ge1
 疚|jiu4
 卒|zu2
@@ -2765,7 +2765,7 @@
 鸥|ou1
 轴|zhou2
 韭|jiu3
-虐|nüe4
+虐|nve4
 昧|mei4
 盹|dun3
 咧|lie3

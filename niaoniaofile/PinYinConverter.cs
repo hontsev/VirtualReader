@@ -569,13 +569,14 @@ namespace SpeechSynthesizer
             string thisword = "";
             for (int i = 0; i < words.Count; i++)
             {
+                //三字以上不处理
                 if (thisword.Length >= 3)
                 {
                     res.Add(thisword);
                     thisword = "";
                 }
-                
-                if (words[i].Length >= 4)
+                //合并以后6字以上直接结束
+                if (words[i].Length >= 6)
                 {
                     res.Add(thisword);
                     thisword = "";
@@ -588,6 +589,7 @@ namespace SpeechSynthesizer
             }
             if (!string.IsNullOrWhiteSpace(thisword))
             {
+                //独字结尾的，向前合并
                 if (thisword.Length==1 && res.Count>0)
                 {
                     res[res.Count - 1] = res[res.Count - 1] + thisword;
