@@ -15,11 +15,11 @@ namespace SpeechSynthesizer
         
         private PinYinConverter pyconv;
 
-        public int soundheight;
-        public int soundSpeed;
+        public double soundheight;
+        public double soundSpeed;
 
         NNTone[] sounds;
-        ToneList tl;
+        SoundAnalysis sa = new SoundAnalysis();
         public string filepath = "";
         string output =  @"output\tmp.wav";
         string outputOri = @"output\tmp_origin.wav";
@@ -29,44 +29,45 @@ namespace SpeechSynthesizer
         {
             pyconv = new PinYinConverter();
             soundheight = 120;
-            soundSpeed = 600;
+            soundSpeed = 160;
 
             //init
             filepath = sourcePath;
             sounds = NNAnalysis.getParamsFromNN(filepath);
-            tl = SoundAnalysis.analysisAll(filepath);
+
+            sa.init(filepath);
 
 
         }
 
-        public int[] getZipDatas(int toneNum,int beforeToneNum=-1,int nextToneNum=-1)
+        public double[] getZipDatas(int toneNum, int beforeToneNum = -1, int nextToneNum = -1)
         {
-            int[] datas;
+            double[] datas;
             switch (toneNum)
             {
                 case 1:
                     if (nextToneNum == 5)
                     {
-                        datas = new int[5] { 110, 110, 110, 110, 90 };
+                        datas = new double[] { 1.1, 1.1, 0.9 };
                     }
                     else
                     {
-                        datas = new int[5] { 110, 110, 110, 110, 110 };
+                        datas = new double[] { 1 };
                     }
-                    
+
                     break;
                 case 2:
-                    datas = new int[5] { 80, 80, 90, 105, 110 };
+                    datas = new double[] { 0.9, 1 };
                     break;
                 case 3:
-                    datas = new int[5] { 70, 60, 60, 75, 75 };
+                    datas = new double[] { 0.95,  0.88,  0.9 };
                     break;
                 case 4:
-                    datas = new int[5] { 110, 98, 85, 72, 60 };
+                    datas = new double[] { 1.1, 0.98, 0.92 };
                     break;
                 case 5:
                 default:
-                    datas = new int[5] { 85, 80, 75, 72, 70 };
+                    datas = new double[] { 0.9, 0.87 };
                     break;
             }
 
@@ -77,9 +78,10 @@ namespace SpeechSynthesizer
 
 
 
-        public int[] getSoundData(string name,int[] pitdata, int len=500)
+        public int[] getSoundData(string name,double[] pitdata, int len,double[] volume)
         {
-            int[] res = SoundAnalysis.synthesis(tl, name, pitdata, len, 1.0);
+            SynTone st = new SynTone(name, pitdata, len, volume);
+            var res = sa.getSound(st);
             return res;
         }
 
@@ -104,10 +106,7 @@ namespace SpeechSynthesizer
             sw.Stop();
             printEvent(string.Format("拆分句子完毕：{0}ms，共{1}个短句", sw.ElapsedMilliseconds, sentences.Length));
             int num = 0;
-            int index = 0;
             int nowindex = 0;
-
-            int scale = 2;
 
             List<int> allres = new List<int>();
 
@@ -174,7 +173,7 @@ namespace SpeechSynthesizer
 
                         double sneeze = 0.22;
                         double part = 1.0 * (sneeze / 2);
-                        int[] thisSoundFrame = getSoundData(ch, getZipDatas(tonenum, beforetonenum, nexttonenum), duration);
+                        int[] thisSoundFrame = getSoundData(ch, getZipDatas(tonenum, beforetonenum, nexttonenum), (int)(duration / (soundSpeed/100)), new double[] { this.soundheight / 100 });
                         for (int k = 0; k < thisSoundFrame.Length;k++ )
                         {
                             thisSoundFrame[k] = (int)((double)thisSoundFrame[k] * soundheight / 100);
