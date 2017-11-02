@@ -24,7 +24,7 @@ namespace SpeechSynthesizer
         string output =  @"output\tmp.wav";
         string outputOri = @"output\tmp_origin.wav";
         string outputTone = @"output\tmp_tone.wav";
-        double defaultpitch = 69;
+        public double defaultpitch = 69;
 
         public MYSSController(string sourcePath)
         {

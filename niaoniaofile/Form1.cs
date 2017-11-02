@@ -627,11 +627,13 @@ namespace SpeechSynthesizer
             {
                 int speed = int.Parse(numericUpDown5.Value.ToString());
                 int height = int.Parse(numericUpDown6.Value.ToString());
+                int pitch = int.Parse(numericUpDown7.Value.ToString());
                 string filepath = textBox5.Text + @"\";
                 if (myssc == null || myssc.filepath != filepath)
                     this.myssc = new MYSSController(filepath);
                 myssc.soundheight = height;
                 myssc.soundSpeed = speed;
+                myssc.defaultpitch = pitch;
             }
             catch
             {

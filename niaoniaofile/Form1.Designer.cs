@@ -63,6 +63,8 @@
             this.button5 = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
+            this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -74,6 +76,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -347,6 +350,8 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.numericUpDown7);
+            this.tabPage5.Controls.Add(this.label8);
             this.tabPage5.Controls.Add(this.button9);
             this.tabPage5.Controls.Add(this.numericUpDown5);
             this.tabPage5.Controls.Add(this.numericUpDown6);
@@ -365,7 +370,7 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(76, 148);
+            this.button9.Location = new System.Drawing.Point(76, 173);
             this.button9.Margin = new System.Windows.Forms.Padding(4);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(235, 32);
@@ -471,7 +476,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(76, 188);
+            this.button8.Location = new System.Drawing.Point(76, 204);
             this.button8.Margin = new System.Windows.Forms.Padding(4);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(235, 68);
@@ -539,6 +544,34 @@
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
+            // numericUpDown7
+            // 
+            this.numericUpDown7.Location = new System.Drawing.Point(167, 143);
+            this.numericUpDown7.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDown7.Maximum = new decimal(new int[] {
+            127,
+            0,
+            0,
+            0});
+            this.numericUpDown7.Name = "numericUpDown7";
+            this.numericUpDown7.Size = new System.Drawing.Size(107, 25);
+            this.numericUpDown7.TabIndex = 22;
+            this.numericUpDown7.Value = new decimal(new int[] {
+            69,
+            0,
+            0,
+            0});
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(40, 152);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(37, 15);
+            this.label8.TabIndex = 21;
+            this.label8.Text = "音高";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -572,6 +605,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -613,6 +647,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.NumericUpDown numericUpDown7;
+        private System.Windows.Forms.Label label8;
     }
 }
 

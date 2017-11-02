@@ -60,9 +60,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\Program Files\Microsoft SDKs\Speech\v11.0\Assembly\Microsoft.Speech.dll</HintPath>
     </Reference>
-    <Reference Include="mySpeechSynthesizer">
-      <HintPath>..\..\nntest\mySpeechSynthesizer\bin\Debug\mySpeechSynthesizer.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="mySpeechSynthesizer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SpeechSynthesizer\mySpeechSynthesizer\bin\Debug\mySpeechSynthesizer.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
