@@ -24,13 +24,14 @@ namespace SpeechSynthesizer
         string output =  @"output\tmp.wav";
         string outputOri = @"output\tmp_origin.wav";
         string outputTone = @"output\tmp_tone.wav";
+        double defaultpitch = 69;
 
         public MYSSController(string sourcePath)
         {
             pyconv = new PinYinConverter();
             soundheight = 120;
             soundSpeed = 160;
-
+            defaultpitch = 69;
             //init
             filepath = sourcePath;
             sounds = NNAnalysis.getParamsFromNN(filepath);
@@ -80,8 +81,8 @@ namespace SpeechSynthesizer
 
         public int[] getSoundData(string name,double[] pitdata, int len,double[] volume)
         {
-            SynTone st = new SynTone(name, pitdata, len, volume);
-            var res = sa.getSound(st);
+            SynTone st = new SynTone(name, pitdata, len, volume,0, defaultpitch);
+            var res = sa.getSoundTone(st);
             return res;
         }
 
@@ -107,6 +108,7 @@ namespace SpeechSynthesizer
             printEvent(string.Format("拆分句子完毕：{0}ms，共{1}个短句", sw.ElapsedMilliseconds, sentences.Length));
             int num = 0;
             int nowindex = 0;
+           
 
             List<int> allres = new List<int>();
 
