@@ -96,7 +96,7 @@ namespace SpeechSynthesizer
             {
                 case 1:
                     pbw = scalePBValue("112,350,18", false, length);
-                    pby = scalePBValue("24.0,24.0,0.0",true,length);
+                    pby = scalePBValue("14.0,17.0,0.0",true,length);
                     break;
                 case 2:
                     pbw = scalePBValue("138,340,12",false,length);
@@ -109,15 +109,15 @@ namespace SpeechSynthesizer
                     break;
                 case 3:
                     pbw = scalePBValue("171,297,12",false,length);
-                    pby = scalePBValue("-26.2,-2.5,0.0", true, length);
+                    pby = scalePBValue("-30.2,-18.5,0.0", true, length);
                     break;
                 case 4:
                     pbw = scalePBValue("100,363,27",false,length);
-                    pby = scalePBValue("25.1,-27.7,0.0", true, length);
+                    pby = scalePBValue("15.1,-27.7,0.0", true, length);
                     if (nextIndex == 4)
                     {
                         //[4]->4
-                        pby = scalePBValue("25.1,-10.7,0.0", true, length);
+                        pby = scalePBValue("15.1,-10.7,0.0", true, length);
                     }
                     
                     break;

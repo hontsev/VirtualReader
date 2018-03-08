@@ -11,6 +11,7 @@ using System.IO;
 using System.Threading;
 using System.Text.RegularExpressions;
 using System.Speech.Synthesis.TtsEngine;
+using mySpeechSynthesizer;
 
 namespace SpeechSynthesizer
 {
@@ -18,7 +19,7 @@ namespace SpeechSynthesizer
     {
         private NiaoNiaoFileController nnc;
         private UTAUFileController utauc;
-        private MYSSController myssc;
+        private HanSynthesis myssc;
 
         public Form1()
         {
@@ -149,6 +150,37 @@ namespace SpeechSynthesizer
             return str;
         }
 
+        private void getUTAUFileBySpeackers(object str)
+        {
+            setGUIStatus(false);
+            print("生成UTAU文件中");
+            string path = Application.StartupPath + @"\output\files\";
+            if (Directory.Exists(path)) Directory.Delete(path, true);
+            Directory.CreateDirectory(path);
+            //string filename = @"output.nn";
+            string[] sentences = ((string)str).Split('\n');
+            for (int i = 0; i < sentences.Length; i++)
+            {
+                string s = sentences[i].Replace("\r", "");
+                int begin = s.IndexOf("：");
+                if (begin < 0) continue;
+                string speaker = s.Substring(0, begin);
+                string content = s.Substring(begin);
+                string filename = string.Format("{0}{1}{2}.ust", i.ToString().PadLeft(4, '0'), speaker, removeInvalidChars(content).Substring(0, Math.Min(10, removeInvalidChars(content).Length)));
+                string file = path + filename;
+                using (FileStream fs = new FileStream(file, FileMode.Create))
+                {
+                    using (StreamWriter sw = new StreamWriter(fs))
+                    {
+                        sw.Write(utauc.getUSTFile(content, this.print));
+                    }
+                }
+            }
+
+            print(string.Format("生成完毕。输出路径为\r\n{0}", path));
+            setGUIStatus(true);
+        }
+
         private void getNNFileBySpeakers(object str)
         {
             setGUIStatus(false);
@@ -207,7 +239,7 @@ namespace SpeechSynthesizer
             {
                 if (!isReading) break;
                 string filename = string.Format(@"{0}tmp_{1}.wav", bufferpath, i);
-                int[] tmp = myssc.showSound(sentence[i], this.print);
+                int[] tmp = myssc.showSound(sentence[i]);
                 myssc.writeWAV(tmp,filename);
             }
         }
@@ -242,7 +274,7 @@ namespace SpeechSynthesizer
             setGUIStatus(false);
 
             print("开始生成");
-            int[] res=myssc.showSound(str as string, this.print);
+            int[] res=myssc.showSound(str as string);
             print("生成完毕。合成WAV文件。");
             myssc.writeWAV(res);
             print("WAV生成完毕。");
@@ -554,7 +586,15 @@ namespace SpeechSynthesizer
             textBox2.Text = "";
             utauc.soundSpeed = int.Parse(numericUpDown3.Value.ToString());
             utauc.soundheight = int.Parse(numericUpDown4.Value.ToString());
-            new Thread(getUTAUFile).Start(textBox1.Text);
+            if (checkBox2.Checked)
+            {
+                new Thread(getUTAUFileBySpeackers).Start(textBox1.Text);
+            }
+            else
+            {
+                new Thread(getUTAUFile).Start(textBox1.Text);
+            }
+            
         }
 
         private void getPinYinString(object str)
@@ -630,7 +670,7 @@ namespace SpeechSynthesizer
                 int pitch = int.Parse(numericUpDown7.Value.ToString());
                 string filepath = textBox5.Text + @"\";
                 if (myssc == null || myssc.filepath != filepath)
-                    this.myssc = new MYSSController(filepath);
+                    this.myssc = new HanSynthesis(filepath);
                 myssc.soundheight = height;
                 myssc.soundSpeed = speed;
                 myssc.defaultpitch = pitch;
@@ -694,5 +734,134 @@ namespace SpeechSynthesizer
 
             setIsReadStatus();
         }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            var badstringFromDatabase = textBox3.Text;
+            var hopefullyRecovered = Encoding.GetEncoding("gb2312").GetBytes(badstringFromDatabase);
+            var oughtToBeJapanese = Encoding.GetEncoding(932).GetString(hopefullyRecovered);
+            print(badstringFromDatabase + " => " + oughtToBeJapanese);
+        }
+
+        public static bool isJapanese(string str,double conf = 0.01)
+        {
+            const string jcharacter = "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをん゛゜ゝゞァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶーヽヾ";
+            double sum = 0;
+            foreach (var c in str)
+            {
+                if (jcharacter.Contains(c)) sum++;
+            }
+            return sum / str.Length > conf ;
+        }
+
+        /// <summary>
+        /// 将错误编码的日文乱码转化为正确的日文
+        /// </summary>
+        /// <param name="errcode"></param>
+        /// <param name="errEncoding"></param>
+        /// <returns></returns>
+        private string convertJEoncode(string errcode,Encoding errEncoding=null)
+        {
+            if (isJapanese(errcode, 0))
+            {
+                //已经被转成日文了，不用转了
+                return errcode;
+            }
+
+            if (errEncoding == null) errEncoding = Encoding.GetEncoding("gb2312");
+
+            var hopefullyRecovered = errEncoding.GetBytes(errcode);
+            var oughtToBeJapanese = Encoding.GetEncoding(932).GetString(hopefullyRecovered);
+
+            return oughtToBeJapanese;
+        }
+
+        private string getEnableFilename(string path)
+        {
+            if (!File.Exists(path)) return path;
+            int rename = 1;
+            string dict = Path.GetDirectoryName(path);
+            string name = Path.GetFileNameWithoutExtension(path);
+            string ext = Path.GetExtension(path);
+            while (File.Exists(path))
+            {
+                path = string.Format("{0}/{1}({2}){3}", dict, name, rename++, ext);
+            }
+            return path;
+        }
+
+        private void dealFiles(string[] files)
+        {
+            foreach (var path in files)
+            {
+                print("load:" + path);
+
+                string filename = Path.GetFileNameWithoutExtension(path);
+                string ext = Path.GetExtension(path);
+                string dict = Path.GetDirectoryName(path);
+
+                string out_filename = convertJEoncode(filename);
+                string out_path = dict + "/" + out_filename + ext;
+                out_path = getEnableFilename(out_path);
+
+                if (".txt .ini".Contains(ext))
+                {
+                    // decoding
+
+                    string out_filecontent = "";
+                    string tmp1 = File.ReadAllText(path, Encoding.GetEncoding(932));
+                    string tmp2 = File.ReadAllText(path, Encoding.GetEncoding("gb2312"));
+                    string tmp3 = File.ReadAllText(path, Encoding.UTF8);
+                    if (isJapanese(tmp1)) out_filecontent = tmp1;
+                    else if (isJapanese(tmp2)) out_filecontent = tmp2;
+                    else if (isJapanese(tmp3)) out_filecontent = tmp3;
+
+                    if (out_filecontent.Length <= 0) out_filecontent = tmp2;
+
+                    File.WriteAllText(out_path, out_filecontent);
+                }
+                else
+                {
+                    //copy
+                    File.Copy(path, out_path);
+                }
+            }
+        }
+
+        private void button11_DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+                if (s.Length > 0)
+                {
+                    dealFiles(s);
+                }
+            }
+            catch(Exception ex)
+            {
+                print(ex.Message);
+            }
+            
+
+        }
+
+        private void button11_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.All;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
     }
 }

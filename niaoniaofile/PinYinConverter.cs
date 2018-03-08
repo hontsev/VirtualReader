@@ -611,9 +611,10 @@ namespace SpeechSynthesizer
         public List<List<string>> getPinYinList(string sentence)
         {
             
-            JiebaNet.Segmenter.JiebaSegmenter seg = new JiebaSegmenter();
+            JiebaSegmenter seg = new JiebaSegmenter();
             var words1 = seg.Cut(sentence);
             List<string> words = removeUselessBlanks(words1.ToList());
+            
             
             
             //bool isjoin = false;
@@ -664,7 +665,7 @@ namespace SpeechSynthesizer
             {
                 try
                 {
-                    List<string> tmpw = getPinYinListByWord(word);
+                    List<string> tmpw = getPinYinListByWord(word.ToString());
                     reformWordPinYin(ref tmpw);
                     if (tmpw.Count > 0) pinyin.Add(tmpw);
                 }
