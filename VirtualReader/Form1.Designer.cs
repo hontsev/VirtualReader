@@ -1,4 +1,4 @@
-﻿namespace SpeechSynthesizer
+﻿namespace VirtualReader
 {
     partial class Form1
     {

@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using JiebaNet.Segmenter;
 using System.Diagnostics;
 
-namespace SpeechSynthesizer
+namespace VirtualReader
 {
     class UTAUFileController
     {

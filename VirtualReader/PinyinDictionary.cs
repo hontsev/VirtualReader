@@ -5,7 +5,7 @@ using System.Collections.Generic;
 //using System.Threading.Tasks;
 using System.IO;
 
-namespace SpeechSynthesizer
+namespace VirtualReader
 {
     class PinyinDictionary
     {
@@ -28,7 +28,7 @@ namespace SpeechSynthesizer
                 {
                     while (!sr.EndOfStream)
                     {
-                        string[] tmp = sr.ReadLine().Split('|');
+                        string[] tmp = sr.ReadLine().Trim().Split('|');
                         if (tmp.Length == 2)
                         {
                             try
@@ -52,8 +52,12 @@ namespace SpeechSynthesizer
         /// </summary>
         public PinyinDictionary()
         {
+            string filename0 = @"Dictionary\pinyin.txt";
             string filename1 = @"Dictionary\Dictionary.txt";
             string filename2 = @"Dictionary\SimpleWordAdd.txt";
+
+
+            dictionary = getFileInfo(filename0);
 
             //指定储存字典的对象
             dictionary = getFileInfo(filename1);

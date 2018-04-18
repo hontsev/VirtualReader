@@ -29,3 +29,5 @@
 /歌姬朗读文件生成v1.2
 /*.suo
 /niaoniaofile/*.csproj
+/VirtualReader/obj
+/VirtualReader/bin/Debug/*.pdb

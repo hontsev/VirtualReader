@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 using System.Speech.Synthesis.TtsEngine;
 using mySpeechSynthesizer;
 
-namespace SpeechSynthesizer
+namespace VirtualReader
 {
     public partial class Form1 : Form
     {

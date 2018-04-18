@@ -5,7 +5,7 @@ using System.Text;
 using System.Speech.Synthesis;
 using System.Speech;
 
-namespace SpeechSynthesizer
+namespace VirtualReader
 {
     class MicrosoftTTS
     {
