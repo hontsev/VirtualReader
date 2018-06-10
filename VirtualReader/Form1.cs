@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 using System.Text.RegularExpressions;
-using System.Speech.Synthesis.TtsEngine;
 using mySpeechSynthesizer;
 
 namespace VirtualReader
@@ -670,10 +669,10 @@ namespace VirtualReader
                 int pitch = int.Parse(numericUpDown7.Value.ToString());
                 string filepath = textBox5.Text + @"\";
                 if (myssc == null || myssc.filepath != filepath)
-                    this.myssc = new HanSynthesis(filepath);
-                myssc.soundheight = height;
-                myssc.soundSpeed = speed;
-                myssc.defaultpitch = pitch;
+                    this.myssc = new HanSynthesis(filepath,speed,height,pitch);
+                //myssc.soundheight = height;
+                //myssc.soundSpeed = speed;
+                //myssc.defaultpitch = pitch;
             }
             catch
             {
